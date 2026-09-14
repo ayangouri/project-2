@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahel — Women's Safety Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16213A;
+    --ink-soft:#242F4C;
+    --paper:#FAF6EF;
+    --paper-dim:#F1EBDD;
+    --signal:#E4572E;
+    --signal-dim:#F7D9CD;
+    --guard:#3E7C59;
+    --guard-dim:#DCE9DF;
+    --sand:#C9A66B;
+    --charcoal:#1C1C1C;
+    --line:#D8D2C4;
+    --line-dark:#3A4569;
+    --serif: 'Fraunces', serif;
+    --sans: 'Work Sans', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--charcoal);
+    line-height:1.5;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,246,239,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;max-width:1120px;margin:0 auto;
+  }
+  .logo{
+    font-family:var(--serif);font-weight:600;font-size:22px;
+    display:flex;align-items:center;gap:8px;letter-spacing:-0.01em;
+  }
+  .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--signal);display:inline-block;}
+  .nav-links{display:flex;gap:28px;list-style:none;margin:0;padding:0;}
+  .nav-links a{
+    text-decoration:none;font-size:15px;color:var(--ink);
+    border-bottom:1px solid transparent;padding-bottom:2px;
+  }
+  .nav-links a:hover{border-bottom-color:var(--ink);}
+  .nav-cta{
+    background:var(--ink);color:var(--paper);border:none;
+    padding:10px 18px;border-radius:3px;font-size:14px;font-weight:600;
+  }
+  .nav-toggle{display:none;background:none;border:none;font-size:26px;color:var(--ink);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:var(--ink);color:var(--paper);
+    padding:72px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;
+  }
+  .eyebrow{
+    font-size:14px;color:var(--sand);margin:0 0 18px;
+  }
+  .hero h1{
+    font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.6vw,58px);
+    line-height:1.06;margin:0 0 22px;max-width:15ch;
+  }
+  .hero p.lead{
+    font-size:18px;color:#D9DCEA;max-width:46ch;margin:0 0 32px;
+  }
+  .hero-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:8px;font-size:14px;color:#B9C0DA;
+  }
+  .status-pill .led{width:8px;height:8px;border-radius:50%;background:var(--guard);box-shadow:0 0 0 3px rgba(62,124,89,0.25);}
+
+  /* phone widget mock */
+  .phone{
+    background:linear-gradient(160deg,#1E2A4A,#111A30);
+    border:1px solid var(--line-dark);
+    border-radius:26px;padding:22px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    max-width:300px;margin-left:auto;
+  }
+  .phone-top{display:flex;justify-content:space-between;font-size:12px;color:#8C97BE;margin-bottom:18px;}
+  .phone-card{
+    background:rgba(255,255,255,0.04);border:1px solid var(--line-dark);
+    border-radius:14px;padding:16px;margin-bottom:12px;
+  }
+  .phone-card h4{margin:0 0 6px;font-size:13px;color:#B9C0DA;font-weight:500;}
+  .phone-card .value{font-family:var(--serif);font-size:20px;color:var(--paper);}
+  .contact-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid rgba(255,255,255,0.08);}
+  .contact-row:first-of-type{border-top:none;}
+  .contact-row span:first-child{font-size:14px;color:#DCE0EE;}
+  .tick{color:var(--guard);font-size:13px;}
+
+  /* ---------- Section shell ---------- */
+  section{padding:88px 0;}
+  .section-head{max-width:640px;margin-bottom:48px;}
+  .section-head .kicker{color:var(--signal);font-size:14px;margin:0 0 10px;font-weight:600;}
+  .section-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.4vw,40px);margin:0 0 14px;line-height:1.15;}
+  .section-head p{color:#4A4A45;font-size:16.5px;max-width:56ch;margin:0;}
+  section.dark{background:var(--ink);color:var(--paper);}
+  section.dark .section-head p{color:#C7CBE0;}
+  section.dark .section-head h2{color:var(--paper);}
+
+  /* ---------- Bento feature grid ---------- */
+  .bento{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:18px;
+  }
+  .bento .card{
+    border:1px solid var(--line);padding:26px;background:#fff;
+  }
+  .bento .card h3{font-family:var(--serif);font-weight:500;font-size:21px;margin:0 0 10px;}
+  .bento .card p{margin:0;color:#4A4A45;font-size:15px;}
+  .bento .span-4{grid-column:span 4;}
+  .bento .span-2{grid-column:span 2;}
+  .bento .span-3{grid-column:span 3;}
+  .bento .card.accent{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .bento .card.accent p{color:#C7CBE0;}
+  .badge{
+    display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;
+    border-radius:3px;background:var(--guard-dim);color:var(--guard);margin-bottom:14px;
+  }
+  .badge.warn{background:var(--signal-dim);color:var(--signal);}
+
+  /* ---------- SOS demo ---------- */
+  .sos-demo{display:grid;grid-template-columns:1fr 1.3fr;gap:52px;align-items:center;}
+  .sos-hold-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .sos-btn{
+    width:190px;height:190px;border-radius:50%;
+    background:var(--signal);color:#fff;border:none;
+    font-family:var(--serif);font-size:22px;font-weight:500;
+    position:relative;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 0 rgba(228,87,46,0.5);
+    user-select:none;-webkit-user-select:none;touch-action:none;
+  }
+  .sos-btn.pulsing{animation:pulse 2.2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(228,87,46,0.45);}
+    70%{box-shadow:0 0 0 24px rgba(228,87,46,0);}
+    100%{box-shadow:0 0 0 0 rgba(228,87,46,0);}
+  }
+  .sos-ring{position:absolute;inset:-8px;border-radius:50%;}
+  .sos-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .sos-ring circle{fill:none;stroke-width:6;}
+  .sos-ring .track{stroke:rgba(228,87,46,0.15);}
+  .sos-ring .fill{stroke:#fff;stroke-linecap:round;transition:stroke-dashoffset 0.05s linear;}
+  .hold-hint{font-size:14px;color:#6b6b63;text-align:center;max-width:220px;}
+  section.dark .hold-hint{color:#B9C0DA;}
+
+  .sos-panel{
+    border:1px solid var(--line-dark);background:var(--ink-soft);border-radius:8px;padding:26px 28px;min-height:280px;
+  }
+  .sos-panel h3{font-family:var(--serif);font-weight:500;margin:0 0 4px;font-size:20px;}
+  .sos-panel .meta{font-size:13px;color:#9EA6C4;margin-bottom:20px;}
+  .sos-log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .sos-log li{
+    display:flex;align-items:center;gap:10px;font-size:14.5px;color:#D9DCEA;
+    opacity:0;transform:translateY(4px);animation:appear 0.4s forwards;
+  }
+  @keyframes appear{to{opacity:1;transform:translateY(0);}}
+  .sos-log li .icon{width:18px;height:18px;border-radius:50%;background:var(--guard);flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;}
+  .sos-idle{color:#9EA6C4;font-size:14.5px;}
+  .cancel-btn{
+    margin-top:20px;background:transparent;border:1px solid #5A648A;color:#D9DCEA;
+    padding:9px 16px;border-radius:4px;font-size:13.5px;
+  }
+  .cancel-btn:hover{border-color:#D9DCEA;}
+
+  /* ---------- Journey tracker ---------- */
+  .journey-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:52px;align-items:start;}
+  .field-group{margin-bottom:18px;}
+  .field-group label{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px;color:var(--ink);}
+  .field-group input{
+    width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:4px;
+    font-family:inherit;font-size:15px;background:#fff;
+  }
+  .primary-btn{
+    background:var(--ink);color:var(--paper);border:none;padding:12px 22px;
+    border-radius:4px;font-size:14.5px;font-weight:600;
+  }
+  .primary-btn:disabled{opacity:0.45;cursor:default;}
+  .ghost-btn{
+    background:transparent;border:1px solid var(--ink);color:var(--ink);padding:12px 22px;
+    border-radius:4px;font-size:14.5px;font-weight:600;
+  }
+  .trip-card{
+    border:1px solid var(--line);padding:28px;background:#fff;
+  }
+  .trip-timer{
+    font-family:var(--serif);font-size:56px;font-weight:500;margin:6px 0 18px;
+  }
+  .trip-status{font-size:14px;color:#4A4A45;margin-bottom:20px;}
+  .trip-status.watching{color:var(--signal);}
+  .btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+
+  /* ---------- Fake call ---------- */
+  .call-demo{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+  .call-controls .field-group input{background:rgba(255,255,255,0.06);border-color:var(--line-dark);color:var(--paper);}
+  .call-mock{
+    background:linear-gradient(160deg,#1E2A4A,#0F1729);
+    border-radius:32px;border:1px solid var(--line-dark);
+    max-width:280px;margin:0 auto;padding:32px 22px;text-align:center;
+    min-height:420px;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .call-mock .avatar{
+    width:84px;height:84px;border-radius:50%;background:var(--sand);margin:0 auto 18px;
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:30px;color:#1C1C1C;
+  }
+  .call-mock .caller-name{font-family:var(--serif);font-size:24px;margin:0 0 4px;}
+  .call-mock .caller-sub{font-size:13px;color:#9EA6C4;margin:0 0 6px;}
+  .ring-dot{display:inline-block;width:8px;height:8px;background:var(--guard);border-radius:50%;animation:ringblink 1s infinite;}
+  @keyframes ringblink{50%{opacity:0.2;}}
+  .call-buttons{display:flex;justify-content:center;gap:34px;margin-top:26px;}
+  .call-buttons button{
+    width:58px;height:58px;border-radius:50%;border:none;font-size:22px;color:#fff;
+  }
+  .decline{background:var(--signal);}
+  .accept{background:var(--guard);}
+  .call-mock.hidden-state{opacity:0.4;}
+
+  /* ---------- Contacts ---------- */
+  .contacts-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:52px;}
+  .contact-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);}
+  .contact-list li{
+    display:flex;align-items:center;justify-content:between;gap:16px;
+    padding:16px 0;border-bottom:1px solid var(--line);
+  }
+  .contact-list li .info{flex:1;}
+  .contact-list li .name{font-weight:600;font-size:15.5px;}
+  .contact-list li .phone{font-size:13.5px;color:#6b6b63;}
+  .remove-btn{
+    background:none;border:1px solid var(--line);color:#6b6b63;border-radius:4px;
+    padding:7px 12px;font-size:13px;
+  }
+  .remove-btn:hover{border-color:var(--signal);color:var(--signal);}
+  .add-contact-form{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+  .add-contact-form input{flex:1;min-width:130px;padding:10px 12px;border:1px solid var(--line);border-radius:4px;font-family:inherit;}
+  .add-contact-form button{background:var(--ink);color:var(--paper);border:none;padding:10px 18px;border-radius:4px;font-weight:600;font-size:14px;}
+  .empty-note{font-size:14px;color:#8a8a80;padding:16px 0;}
+
+  /* ---------- Safety map ---------- */
+  .map-wrap{border:1px solid var(--line);background:#fff;padding:24px;}
+  .map-toggle{display:flex;gap:8px;margin-bottom:18px;}
+  .map-toggle button{
+    padding:8px 16px;border:1px solid var(--line);background:#fff;border-radius:20px;font-size:13.5px;
+  }
+  .map-toggle button.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .map-legend{display:flex;gap:22px;margin-top:16px;font-size:13px;color:#4A4A45;flex-wrap:wrap;}
+  .map-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dotL{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  /* ---------- Helplines ---------- */
+  .help-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .help-card{border:1px solid var(--line-dark);background:var(--ink-soft);padding:20px 22px;border-radius:6px;}
+  .help-card .num{font-family:var(--serif);font-size:26px;margin:2px 0 8px;}
+  .help-card .name{font-size:14px;color:#C7CBE0;margin-bottom:2px;}
+  .help-card a{text-decoration:none;color:var(--paper);}
+  .help-note{font-size:13.5px;color:#9EA6C4;margin-top:22px;}
+  .local-flag{display:inline-block;background:var(--signal);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+
+  /* ---------- Tips accordion ---------- */
+  .tips-list{border-top:1px solid var(--line);}
+  .tip{border-bottom:1px solid var(--line);}
+  .tip button{
+    width:100%;text-align:left;background:none;border:none;padding:20px 0;
+    display:flex;justify-content:space-between;align-items:center;font-size:16.5px;font-weight:600;font-family:inherit;color:var(--charcoal);
+  }
+  .tip .plus{font-size:20px;color:var(--signal);transition:transform 0.2s;}
+  .tip.open .plus{transform:rotate(45deg);}
+  .tip .panel{max-height:0;overflow:hidden;transition:max-height 0.25s ease;}
+  .tip .panel p{margin:0 0 18px;color:#4A4A45;font-size:15px;max-width:70ch;}
+
+  /* ---------- Footer ---------- */
+  footer{background:#10182C;color:#8C97BE;padding:48px 0 30px;font-size:14px;}
+  .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:28px;}
+  footer .logo{color:var(--paper);}
+  footer a{text-decoration:none;}
+  footer a:hover{color:var(--paper);}
+  .footer-cols{display:flex;gap:56px;flex-wrap:wrap;}
+  .footer-cols h5{color:#B9C0DA;font-size:13px;margin:0 0 12px;font-weight:600;}
+  .footer-cols ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .disclaimer{border-top:1px solid #23304E;padding-top:20px;font-size:12.5px;color:#5E6A93;line-height:1.6;}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .nav-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .phone{margin:0 auto;}
+    .sos-demo,.journey-grid,.call-demo,.contacts-grid{grid-template-columns:1fr;}
+    .bento{grid-template-columns:repeat(2,1fr);}
+    .bento .span-4,.bento .span-3,.bento .span-2{grid-column:span 2;}
+    .help-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:520px){
+    .help-grid{grid-template-columns:1fr;}
+    .bento{grid-template-columns:1fr;}
+    .bento .span-4,.bento .span-3,.bento .span-2{grid-column:span 1;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}
+  }
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="logo"><span class="dot"></span>Sahel</div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#sos">SOS</a></li>
+      <li><a href="#journey">Journey check-in</a></li>
+      <li><a href="#map">Safety map</a></li>
+      <li><a href="#helplines">Helplines</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('sos').scrollIntoView({behavior:'smooth'})">Try the SOS demo</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">A safety companion, not an afterthought</p>
+      <h1>Help arrives before you finish the sentence.</h1>
+      <p class="lead">Sahel puts an emergency alert, a live location, and someone who cares within one press. Set it up once, in under a minute, and carry it everywhere you already carry your phone.</p>
+      <div class="hero-actions">
+        <button class="primary-btn" style="background:var(--signal);" onclick="document.getElementById('sos').scrollIntoView({behavior:'smooth'})">See how SOS works</button>
+        <span class="status-pill"><span class="led"></span>Demo mode — no real alerts are sent</span>
+      </div>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="phone-top"><span>9:41</span><span>Sahel</span></div>
+      <div class="phone-card">
+        <h4>Current status</h4>
+        <div class="value">All safe</div>
+      </div>
+      <div class="phone-card">
+        <h4>Trusted circle</h4>
+        <div class="contact-row"><span>Meera (sister)</span><span class="tick">● online</span></div>
+        <div class="contact-row"><span>Dad</span><span class="tick">● online</span></div>
+        <div class="contact-row"><span>Riya (flatmate)</span><span class="tick">● online</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">What's inside</p>
+      <h2>Six tools, one press away</h2>
+      <p>Every feature below is a working demo in this page — hold the SOS button, start a journey timer, or add a contact to see exactly how it behaves.</p>
+    </div>
+    <div class="bento">
+      <div class="card accent span-4">
+        <span class="badge warn">Core</span>
+        <h3>One-press SOS</h3>
+        <p>Hold the button for two seconds to alert your trusted circle with your live location, timestamp, and a short audio clip of your surroundings.</p>
+      </div>
+      <div class="card span-2">
+        <span class="badge">Journey check-in</span>
+        <h3>Someone's watching the clock</h3>
+        <p>Set an expected arrival time. If you don't check in, your circle is notified automatically.</p>
+      </div>
+      <div class="card span-2">
+        <h3>Fake call</h3>
+        <p>Trigger a realistic incoming call to excuse yourself from an uncomfortable situation.</p>
+      </div>
+      <div class="card span-2">
+        <h3>Trusted circle</h3>
+        <p>Choose exactly who gets notified — no more, no less. Add or remove people anytime.</p>
+      </div>
+      <div class="card span-2">
+        <h3>Well-lit routing</h3>
+        <p>See community-reported lighting and incident data before you choose a route home.</p>
+      </div>
+      <div class="card span-6">
+        <h3>Verified helplines</h3>
+        <p>Government and NGO helpline numbers, checked and current, plus the local number for your area — reachable with a single tap, no app required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sos" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Try it</p>
+      <h2>Press and hold for help</h2>
+      <p>In a real deployment this would reach your phone's SMS and location APIs. Here, it's a full simulation so you can feel exactly how the flow works, end to end.</p>
+    </div>
+    <div class="sos-demo">
+      <div class="sos-hold-wrap">
+        <button class="sos-btn pulsing" id="sosBtn">
+          <span class="sos-ring">
+            <svg viewBox="0 0 200 200">
+              <circle class="track" cx="100" cy="100" r="90"></circle>
+              <circle class="fill" id="sosRingFill" cx="100" cy="100" r="90" stroke-dasharray="565.5" stroke-dashoffset="565.5"></circle>
+            </svg>
+          </span>
+          <span id="sosBtnLabel">Hold for SOS</span>
+        </button>
+        <p class="hold-hint">Press and hold for two seconds. Release early and nothing happens.</p>
+      </div>
+      <div class="sos-panel">
+        <h3>Alert activity</h3>
+        <p class="meta" id="sosMeta">Waiting for a hold-to-activate press.</p>
+        <p class="sos-idle" id="sosIdleMsg">No alert has been sent yet.</p>
+        <ul class="sos-log" id="sosLog"></ul>
+        <button class="cancel-btn" id="sosCancelBtn" style="display:none;">Cancel alert</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Try it</p>
+      <h2>Let someone know when to worry</h2>
+      <p>Start a journey timer before a walk, a cab ride, or a date. If you don't mark yourself safe by the deadline, your circle is alerted automatically.</p>
+    </div>
+    <div class="journey-grid">
+      <div>
+        <div class="field-group">
+          <label for="destInput">Where are you headed?</label>
+          <input type="text" id="destInput" placeholder="e.g. Home from the station" value="Home from the station">
+        </div>
+        <div class="field-group">
+          <label for="minutesInput">Expected minutes</label>
+          <input type="number" id="minutesInput" value="1" min="1" max="120">
+        </div>
+        <p style="font-size:13px;color:#8a8a80;">Set to 1 minute so you can see the full demo quickly — in the real app this would match your actual travel time.</p>
+      </div>
+      <div class="trip-card">
+        <span class="badge" id="tripBadge">Not started</span>
+        <div class="trip-timer" id="tripTimer">--:--</div>
+        <p class="trip-status" id="tripStatus">Start a journey to begin the countdown.</p>
+        <div class="btn-row">
+          <button class="primary-btn" id="startTripBtn">Start journey</button>
+          <button class="ghost-btn" id="safeBtn" style="display:none;">I'm safe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="call" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Try it</p>
+      <h2>An exit, disguised as a phone call</h2>
+      <p>Set a caller name, then trigger the call. A realistic incoming-call screen appears after a short delay, giving you a natural reason to step away.</p>
+    </div>
+    <div class="call-demo">
+      <div class="call-controls">
+        <div class="field-group">
+          <label for="callerNameInput">Caller name</label>
+          <input type="text" id="callerNameInput" value="Mom">
+        </div>
+        <button class="primary-btn" id="startCallBtn">Ring in 5 seconds</button>
+        <p class="hold-hint" id="callHint" style="text-align:left;margin-top:14px;"></p>
+      </div>
+      <div class="call-mock hidden-state" id="callMock">
+        <div>
+          <div class="avatar" id="callAvatar">M</div>
+          <p class="caller-name" id="callName">Mom</p>
+          <p class="caller-sub" id="callSub">Waiting to ring…</p>
+        </div>
+        <div class="call-buttons" id="callButtons" style="visibility:hidden;">
+          <button class="decline" id="declineBtn" aria-label="Decline call">✕</button>
+          <button class="accept" id="acceptBtn" aria-label="Accept call">✆</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Try it</p>
+      <h2>Your trusted circle</h2>
+      <p>These are the people notified by SOS alerts and missed journey check-ins. Add or remove anyone — changes apply immediately to the demos above.</p>
+    </div>
+    <div class="contacts-grid">
+      <div>
+        <ul class="contact-list" id="contactList"></ul>
+        <form class="add-contact-form" id="addContactForm">
+          <input type="text" id="newContactName" placeholder="Name" required>
+          <input type="tel" id="newContactPhone" placeholder="Phone number" required>
+          <button type="submit">Add</button>
+        </form>
+      </div>
+      <div class="card" style="border:1px solid var(--line);padding:26px;">
+        <h3 style="font-family:var(--serif);font-weight:500;margin-top:0;">Why a small circle works better</h3>
+        <p style="color:#4A4A45;font-size:15px;">Three to five people who will actually answer at 2am beats twenty who won't. Sahel deliberately keeps this list short — every person on it gets full location access during an alert, so choose people you trust completely.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="map" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Concept preview</p>
+      <h2>See the street before you walk it</h2>
+      <p>An illustrative view of how community-reported lighting and incidents could shape a route. This is a static concept in this demo — a live version would draw on real map data and verified local reports.</p>
+    </div>
+    <div class="map-wrap">
+      <div class="map-toggle">
+        <button class="active" id="dayBtn">Day view</button>
+        <button id="nightBtn">Night view</button>
+      </div>
+      <svg viewBox="0 0 800 340" id="mapSvg" style="width:100%;height:auto;">
+        <rect width="800" height="340" fill="#F1EBDD"></rect>
+        <line x1="40" y1="60" x2="760" y2="60" stroke="#D8D2C4" stroke-width="10"></line>
+        <line x1="40" y1="170" x2="760" y2="170" stroke="#D8D2C4" stroke-width="10"></line>
+        <line x1="40" y1="280" x2="760" y2="280" stroke="#D8D2C4" stroke-width="10"></line>
+        <line x1="150" y1="20" x2="150" y2="320" stroke="#D8D2C4" stroke-width="10"></line>
+        <line x1="400" y1="20" x2="400" y2="320" stroke="#D8D2C4" stroke-width="10"></line>
+        <line x1="650" y1="20" x2="650" y2="320" stroke="#D8D2C4" stroke-width="10"></line>
+        <g id="mapMarkers">
+          <circle cx="150" cy="60" r="10" fill="#3E7C59"></circle>
+          <circle cx="400" cy="170" r="10" fill="#3E7C59"></circle>
+          <circle cx="650" cy="60" r="10" fill="#E4572E"></circle>
+          <circle cx="400" cy="280" r="10" fill="#C9A66B"></circle>
+          <circle cx="150" cy="280" r="10" fill="#3E7C59"></circle>
+        </g>
+      </svg>
+      <div class="map-legend">
+        <span><i class="dotL" style="background:#3E7C59;"></i>Well-lit, frequently travelled</span>
+        <span><i class="dotL" style="background:#C9A66B;"></i>Moderate — some reports</span>
+        <span><i class="dotL" style="background:#E4572E;"></i>Recent incident reported</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="helplines" style="background:var(--ink);">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker" style="color:var(--sand);">Verified numbers</p>
+      <h2 style="color:var(--paper);">Real helplines, not placeholders</h2>
+      <p style="color:#C7CBE0;">Checked against government sources as of September 2026. Tap any number on a phone to call directly.</p>
+    </div>
+    <div class="help-grid">
+      <div class="help-card">
+        <div class="name">Women in distress (all India)</div>
+        <div class="num"><a href="tel:1091">1091</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">Women helpline — domestic abuse</div>
+        <div class="num"><a href="tel:181">181</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">Police</div>
+        <div class="num"><a href="tel:100">100 / 112</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">National Commission for Women</div>
+        <div class="num"><a href="tel:7827170170">7827170170</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">Childline (under 18)</div>
+        <div class="num"><a href="tel:1098">1098</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">Ambulance</div>
+        <div class="num"><a href="tel:108">108</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">Rajasthan Nirbhaya helpline</div>
+        <div class="num"><a href="tel:18001200020">1800-1200-020</a></div>
+      </div>
+      <div class="help-card">
+        <div class="name">Jodhpur women helpline<span class="local-flag">local</span></div>
+        <div class="num"><a href="tel:02912012112">0291-201-2112</a></div>
+      </div>
+    </div>
+    <p class="help-note">These are India-specific numbers. If you're elsewhere, your country's equivalent emergency and domestic-violence lines should replace this list.</p>
+  </div>
+</section>
+
+<section id="tips">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Good habits</p>
+      <h2>Small precautions that add up</h2>
+      <p>None of these guarantee safety on their own — but together, they make you a harder target and a faster responder.</p>
+    </div>
+    <div class="tips-list" id="tipsList"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo">Sahel</div>
+        <p style="max-width:32ch;color:#6E7AA0;">A safety companion concept — built to show what a genuinely useful safety app could feel like.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h5>Product</h5>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#sos">SOS demo</a></li>
+            <li><a href="#map">Safety map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Support</h5>
+          <ul>
+            <li><a href="#helplines">Helplines</a></li>
+            <li><a href="#tips">Safety tips</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      This page is a working design concept, not a published safety app. The SOS, journey check-in, and fake-call tools are simulated in your browser only — no messages, calls, or location data leave this page or reach real contacts or emergency services. If you are in immediate danger, contact local emergency services directly using the verified numbers above.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Contacts ---------------- */
+  var contacts = [
+    { name: "Meera (sister)", phone: "+91 98765 43210" },
+    { name: "Dad", phone: "+91 91234 56789" },
+    { name: "Riya (flatmate)", phone: "+91 99887 66554" }
+  ];
+
+  function renderContacts(){
+    var list = document.getElementById('contactList');
+    list.innerHTML = "";
+    if (contacts.length === 0){
+      var li = document.createElement('li');
+      li.className = "empty-note";
+      li.textContent = "No one in your circle yet — add someone below.";
+      list.appendChild(li);
+      return;
+    }
+    contacts.forEach(function(c, idx){
+      var li = document.createElement('li');
+      var info = document.createElement('div');
+      info.className = "info";
+      var name = document.createElement('div');
+      name.className = "name";
+      name.textContent = c.name;
+      var phone = document.createElement('div');
+      phone.className = "phone";
+      phone.textContent = c.phone;
+      info.appendChild(name);
+      info.appendChild(phone);
+      var btn = document.createElement('button');
+      btn.className = "remove-btn";
+      btn.textContent = "Remove";
+      btn.addEventListener('click', function(){
+        contacts.splice(idx, 1);
+        renderContacts();
+      });
+      li.appendChild(info);
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+  }
+
+  document.getElementById('addContactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var nameInput = document.getElementById('newContactName');
+    var phoneInput = document.getElementById('newContactPhone');
+    var name = nameInput.value.trim();
+    var phone = phoneInput.value.trim();
+    if (!name || !phone) return;
+    contacts.push({ name: name, phone: phone });
+    nameInput.value = "";
+    phoneInput.value = "";
+    renderContacts();
+  });
+
+  renderContacts();
+
+  /* ---------------- SOS hold-to-activate ---------------- */
+  var sosBtn = document.getElementById('sosBtn');
+  var sosRingFill = document.getElementById('sosRingFill');
+  var sosBtnLabel = document.getElementById('sosBtnLabel');
+  var sosLog = document.getElementById('sosLog');
+  var sosMeta = document.getElementById('sosMeta');
+  var sosIdleMsg = document.getElementById('sosIdleMsg');
+  var sosCancelBtn = document.getElementById('sosCancelBtn');
+
+  var HOLD_MS = 2000;
+  var CIRCUMFERENCE = 565.5;
+  var holdStart = null;
+  var holdRAF = null;
+  var sosActive = false;
+  var sosSendTimers = [];
+
+  function resetRing(){
+    sosRingFill.style.strokeDashoffset = CIRCUMFERENCE;
+  }
+
+  function startHold(e){
+    if (sosActive) return;
+    e.preventDefault();
+    holdStart = Date.now();
+    tickHold();
+  }
+
+  function tickHold(){
+    var elapsed = Date.now() - holdStart;
+    var pct = Math.min(elapsed / HOLD_MS, 1);
+    sosRingFill.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - pct));
+    if (pct >= 1){
+      holdStart = null;
+      activateSOS();
+      return;
+    }
+    holdRAF = requestAnimationFrame(tickHold);
+  }
+
+  function endHold(){
+    if (holdStart === null) return;
+    holdStart = null;
+    if (holdRAF) cancelAnimationFrame(holdRAF);
+    resetRing();
+  }
+
+  sosBtn.addEventListener('mousedown', startHold);
+  sosBtn.addEventListener('touchstart', startHold, { passive: false });
+  sosBtn.addEventListener('mouseup', endHold);
+  sosBtn.addEventListener('mouseleave', endHold);
+  sosBtn.addEventListener('touchend', endHold);
+  sosBtn.addEventListener('touchcancel', endHold);
+
+  function clearSosTimers(){
+    sosSendTimers.forEach(function(t){ clearTimeout(t); });
+    sosSendTimers = [];
+  }
+
+  function activateSOS(){
+    sosActive = true;
+    sosBtn.classList.remove('pulsing');
+    sosBtnLabel.textContent = "Alert sending";
+    sosIdleMsg.style.display = "none";
+    sosLog.innerHTML = "";
+    sosCancelBtn.style.display = "inline-block";
+
+    var now = new Date();
+    sosMeta.textContent = "Triggered at " + now.toLocaleTimeString() + " — sending in 4 seconds unless cancelled.";
+
+    var cancelled = false;
+    sosCancelBtn.onclick = function(){
+      cancelled = true;
+      clearSosTimers();
+      finishSOS(true);
+    };
+
+    var t0 = setTimeout(function(){
+      if (cancelled) return;
+      sosMeta.textContent = "Locating you…";
+      if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+          function(pos){
+            if (cancelled) return;
+            var lat = pos.coords.latitude.toFixed(4);
+            var lon = pos.coords.longitude.toFixed(4);
+            appendLog("Location found (" + lat + ", " + lon + ")");
+            proceedToNotify(cancelled);
+          },
+          function(){
+            if (cancelled) return;
+            appendLog("Location unavailable — sharing last known area instead");
+            proceedToNotify(cancelled);
+          },
+          { timeout: 3000 }
+        );
+      } else {
+        appendLog("Location services not supported in this browser");
+        proceedToNotify(cancelled);
+      }
+    }, 1200);
+    sosSendTimers.push(t0);
+  }
+
+  function proceedToNotify(cancelled){
+    if (cancelled) return;
+    if (contacts.length === 0){
+      var t = setTimeout(function(){
+        appendLog("No contacts in your circle — add someone above first");
+        finishSOS(false);
+      }, 500);
+      sosSendTimers.push(t);
+      return;
+    }
+    contacts.forEach(function(c, i){
+      var t = setTimeout(function(){
+        appendLog(c.name + " notified");
+        if (i === contacts.length - 1){
+          var t2 = setTimeout(function(){ finishSOS(false); }, 600);
+          sosSendTimers.push(t2);
+        }
+      }, 500 + i * 550);
+      sosSendTimers.push(t);
+    });
+  }
+
+  function appendLog(text){
+    var li = document.createElement('li');
+    var icon = document.createElement('span');
+    icon.className = "icon";
+    icon.textContent = "✓";
+    li.appendChild(icon);
+    var span = document.createElement('span');
+    span.textContent = text;
+    li.appendChild(span);
+    sosLog.appendChild(li);
+  }
+
+  function finishSOS(wasCancelled){
+    sosActive = false;
+    sosBtn.classList.add('pulsing');
+    sosBtnLabel.textContent = "Hold for SOS";
+    resetRing();
+    sosCancelBtn.style.display = "none";
+    if (wasCancelled){
+      sosMeta.textContent = "Alert cancelled — nothing was sent.";
+    } else {
+      sosMeta.textContent = "Alert complete. This was a simulation — no real messages were sent.";
+    }
+  }
+
+  /* ---------------- Journey check-in ---------------- */
+  var startTripBtn = document.getElementById('startTripBtn');
+  var safeBtn = document.getElementById('safeBtn');
+  var tripTimer = document.getElementById('tripTimer');
+  var tripStatus = document.getElementById('tripStatus');
+  var tripBadge = document.getElementById('tripBadge');
+  var tripInterval = null;
+  var tripEndAt = null;
+
+  function formatTime(ms){
+    var totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+    var m = Math.floor(totalSeconds / 60);
+    var s = totalSeconds % 60;
+    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+  }
+
+  function startTrip(){
+    var mins = parseFloat(document.getElementById('minutesInput').value) || 1;
+    var dest = document.getElementById('destInput').value.trim() || "your destination";
+    tripEndAt = Date.now() + mins * 60000;
+    tripBadge.textContent = "In progress";
+    tripBadge.classList.add('warn');
+    tripStatus.className = "trip-status watching";
+    tripStatus.textContent = "Watching your trip to \"" + dest + "\". Tap \"I'm safe\" once you arrive.";
+    startTripBtn.style.display = "none";
+    safeBtn.style.display = "inline-block";
+
+    if (tripInterval) clearInterval(tripInterval);
+    tripInterval = setInterval(updateTripClock, 250);
+    updateTripClock();
+  }
+
+  function updateTripClock(){
+    var remaining = tripEndAt - Date.now();
+    if (remaining <= 0){
+      tripTimer.textContent = "00:00";
+      clearInterval(tripInterval);
+      autoAlertTrip();
+      return;
+    }
+    tripTimer.textContent = formatTime(remaining);
+  }
+
+  function autoAlertTrip(){
+    tripBadge.textContent = "No check-in";
+    tripStatus.className = "trip-status watching";
+    var names = contacts.length ? contacts.map(function(c){ return c.name; }).join(", ") : "your circle (empty — add contacts above)";
+    tripStatus.textContent = "You didn't check in in time. In a live app, " + names + " would now be alerted with your last known location.";
+    safeBtn.style.display = "none";
+    startTripBtn.style.display = "inline-block";
+    startTripBtn.textContent = "Start another journey";
+  }
+
+  function markSafe(){
+    if (tripInterval) clearInterval(tripInterval);
+    tripBadge.textContent = "Arrived safely";
+    tripBadge.classList.remove('warn');
+    tripStatus.className = "trip-status";
+    tripStatus.textContent = "Nice — marked safe. No alert was sent.";
+    tripTimer.textContent = "00:00";
+    safeBtn.style.display = "none";
+    startTripBtn.style.display = "inline-block";
+    startTripBtn.textContent = "Start another journey";
+  }
+
+  startTripBtn.addEventListener('click', startTrip);
+  safeBtn.addEventListener('click', markSafe);
+
+  /* ---------------- Fake call ---------------- */
+  var startCallBtn = document.getElementById('startCallBtn');
+  var callHint = document.getElementById('callHint');
+  var callMock = document.getElementById('callMock');
+  var callName = document.getElementById('callName');
+  var callAvatar = document.getElementById('callAvatar');
+  var callSub = document.getElementById('callSub');
+  var callButtons = document.getElementById('callButtons');
+  var declineBtn = document.getElementById('declineBtn');
+  var acceptBtn = document.getElementById('acceptBtn');
+  var callTimeout = null;
+  var callInCallInterval = null;
+
+  function scheduleCall(){
+    var name = document.getElementById('callerNameInput').value.trim() || "Mom";
+    var count = 5;
+    startCallBtn.disabled = true;
+    callHint.textContent = "Ringing in " + count + "…";
+    var iv = setInterval(function(){
+      count -= 1;
+      if (count > 0){
+        callHint.textContent = "Ringing in " + count + "…";
+      } else {
+        clearInterval(iv);
+        callHint.textContent = "";
+        startCallBtn.disabled = false;
+        triggerRing(name);
+      }
+    }, 1000);
+  }
+
+  function triggerRing(name){
+    callMock.classList.remove('hidden-state');
+    callName.textContent = name;
+    callAvatar.textContent = name.charAt(0).toUpperCase();
+    callSub.innerHTML = '<span class="ring-dot"></span> Incoming call…';
+    callButtons.style.visibility = "visible";
+  }
+
+  declineBtn.addEventListener('click', function(){
+    callSub.textContent = "Call declined";
+    callButtons.style.visibility = "hidden";
+    setTimeout(function(){ callMock.classList.add('hidden-state'); }, 900);
+  });
+
+  acceptBtn.addEventListener('click', function(){
+    callButtons.style.visibility = "hidden";
+    var seconds = 0;
+    callSub.textContent = "00:00";
+    if (callInCallInterval) clearInterval(callInCallInterval);
+    callInCallInterval = setInterval(function(){
+      seconds += 1;
+      var m = Math.floor(seconds / 60);
+      var s = seconds % 60;
+      callSub.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    }, 1000);
+  });
+
+  startCallBtn.addEventListener('click', scheduleCall);
+
+  /* ---------------- Safety map toggle ---------------- */
+  var dayBtn = document.getElementById('dayBtn');
+  var nightBtn = document.getElementById('nightBtn');
+  var mapSvg = document.getElementById('mapSvg');
+  var mapMarkers = document.getElementById('mapMarkers');
+
+  var dayColors = ["#3E7C59", "#3E7C59", "#E4572E", "#C9A66B", "#3E7C59"];
+  var nightColors = ["#C9A66B", "#E4572E", "#E4572E", "#E4572E", "#C9A66B"];
+
+  function applyMapColors(colors, bg){
+    var circles = mapMarkers.querySelectorAll('circle');
+    circles.forEach(function(c, i){ c.setAttribute('fill', colors[i]); });
+    mapSvg.querySelector('rect').setAttribute('fill', bg);
+  }
+
+  dayBtn.addEventListener('click', function(){
+    dayBtn.classList.add('active');
+    nightBtn.classList.remove('active');
+    applyMapColors(dayColors, "#F1EBDD");
+  });
+  nightBtn.addEventListener('click', function(){
+    nightBtn.classList.add('active');
+    dayBtn.classList.remove('active');
+    applyMapColors(nightColors, "#242F4C");
+  });
+
+  /* ---------------- Tips accordion ---------------- */
+  var tips = [
+    { q: "Share your live location on long trips", a: "Most map apps let you share real-time location with a trusted contact for a set duration. It costs nothing and means someone always knows roughly where you are." },
+    { q: "Keep your phone charged above 20%", a: "A dead phone can't call for help. Carry a small power bank on days with long commutes or late plans." },
+    { q: "Trust your instinct over politeness", a: "If a situation feels wrong, it's fine to leave, raise your voice, or make a scene. You don't owe anyone an explanation for prioritizing your safety." },
+    { q: "Vary your routine occasionally", a: "Taking the same route at the same time every day makes your movements predictable. Small variations make you harder to track." },
+    { q: "Agree on a check-in code word with close contacts", a: "A word that means \"call me right now, no questions\" can get you out of a situation without alerting whoever you're with." }
+  ];
+
+  var tipsList = document.getElementById('tipsList');
+  tips.forEach(function(t){
+    var div = document.createElement('div');
+    div.className = "tip";
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span></span><span class="plus">+</span>';
+    btn.querySelector('span').textContent = t.q;
+    var panel = document.createElement('div');
+    panel.className = "panel";
+    var p = document.createElement('p');
+    p.textContent = t.a;
+    panel.appendChild(p);
+    btn.addEventListener('click', function(){
+      var isOpen = div.classList.contains('open');
+      document.querySelectorAll('.tip').forEach(function(other){
+        other.classList.remove('open');
+        other.querySelector('.panel').style.maxHeight = null;
+      });
+      if (!isOpen){
+        div.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+    div.appendChild(btn);
+    div.appendChild(panel);
+    tipsList.appendChild(div);
+  });
+
+})();
+</script>
+</body>
+</html>
