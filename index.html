@@ -6,6 +6,7 @@
 <title>Sahel — Women's Safety Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
     --ink:#16213A;
@@ -347,7 +348,7 @@
       <p class="lead">Sahel puts an emergency alert, a live location, and someone who cares within one press. Set it up once, in under a minute, and carry it everywhere you already carry your phone.</p>
       <div class="hero-actions">
         <button class="primary-btn" style="background:var(--signal);" onclick="document.getElementById('sos').scrollIntoView({behavior:'smooth'})">See how SOS works</button>
-        <span class="status-pill"><span class="led"></span>Demo mode — no real alerts are sent</span>
+        <span class="status-pill"><span class="led" id="modeLed"></span><span id="modeStatus">Local demo mode — no real alerts are sent</span></span>
       </div>
     </div>
     <div class="phone" aria-hidden="true">
@@ -650,12 +651,64 @@
 (function(){
   "use strict";
 
+  /* ---------------- Supabase backend ---------------- */
+  // Fill these in with your own project's values (Project Settings → API in Supabase).
+  var SUPABASE_URL = "YOUR_SUPABASE_URL";
+  var SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+  var supabaseClient = null;
+  var backendReady = false;
+
+  function isConfigured(){
+    return SUPABASE_URL.indexOf("YOUR_SUPABASE_URL") === -1 &&
+           SUPABASE_ANON_KEY.indexOf("YOUR_SUPABASE_ANON_KEY") === -1;
+  }
+
+  function setModeStatus(text, ledColor){
+    var el = document.getElementById('modeStatus');
+    var led = document.getElementById('modeLed');
+    if (el) el.textContent = text;
+    if (led) led.style.background = ledColor;
+  }
+
+  async function initBackend(){
+    if (!isConfigured()){
+      setModeStatus("Local demo mode — connect Supabase to persist data", "#C9A66B");
+      return;
+    }
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      var sessionRes = await supabaseClient.auth.getSession();
+      var session = sessionRes.data ? sessionRes.data.session : null;
+      if (!session){
+        var signInRes = await supabaseClient.auth.signInAnonymously();
+        if (signInRes.error) throw signInRes.error;
+        session = signInRes.data.session;
+      }
+      backendReady = true;
+      setModeStatus("Connected to Supabase — your data is saved", "#3E7C59");
+      await loadContactsFromBackend();
+    } catch (err){
+      console.error("Supabase connection failed:", err);
+      backendReady = false;
+      setModeStatus("Supabase connection failed — using local demo mode", "#E4572E");
+    }
+  }
+
   /* ---------------- Contacts ---------------- */
   var contacts = [
     { name: "Meera (sister)", phone: "+91 98765 43210" },
     { name: "Dad", phone: "+91 91234 56789" },
     { name: "Riya (flatmate)", phone: "+91 99887 66554" }
   ];
+
+  async function loadContactsFromBackend(){
+    if (!backendReady) return;
+    var res = await supabaseClient.from('contacts').select('*').order('created_at', { ascending: true });
+    if (res.error){ console.error(res.error); return; }
+    contacts = res.data.map(function(row){ return { id: row.id, name: row.name, phone: row.phone }; });
+    renderContacts();
+  }
 
   function renderContacts(){
     var list = document.getElementById('contactList');
@@ -682,7 +735,11 @@
       var btn = document.createElement('button');
       btn.className = "remove-btn";
       btn.textContent = "Remove";
-      btn.addEventListener('click', function(){
+      btn.addEventListener('click', async function(){
+        if (backendReady && c.id){
+          var del = await supabaseClient.from('contacts').delete().eq('id', c.id);
+          if (del.error){ console.error(del.error); return; }
+        }
         contacts.splice(idx, 1);
         renderContacts();
       });
@@ -692,14 +749,20 @@
     });
   }
 
-  document.getElementById('addContactForm').addEventListener('submit', function(e){
+  document.getElementById('addContactForm').addEventListener('submit', async function(e){
     e.preventDefault();
     var nameInput = document.getElementById('newContactName');
     var phoneInput = document.getElementById('newContactPhone');
     var name = nameInput.value.trim();
     var phone = phoneInput.value.trim();
     if (!name || !phone) return;
-    contacts.push({ name: name, phone: phone });
+    if (backendReady){
+      var ins = await supabaseClient.from('contacts').insert({ name: name, phone: phone }).select().single();
+      if (ins.error){ console.error(ins.error); alert("Could not save contact — check the browser console."); return; }
+      contacts.push({ id: ins.data.id, name: ins.data.name, phone: ins.data.phone });
+    } else {
+      contacts.push({ name: name, phone: phone });
+    }
     nameInput.value = "";
     phoneInput.value = "";
     renderContacts();
@@ -765,6 +828,22 @@
     sosSendTimers = [];
   }
 
+  var currentSosRowId = null;
+  var notifiedThisAlert = [];
+
+  async function logSosStart(){
+    if (!backendReady) return;
+    var ins = await supabaseClient.from('sos_alerts').insert({ status: 'sending' }).select().single();
+    if (ins.error){ console.error(ins.error); return; }
+    currentSosRowId = ins.data.id;
+  }
+
+  async function logSosUpdate(fields){
+    if (!backendReady || !currentSosRowId) return;
+    var upd = await supabaseClient.from('sos_alerts').update(fields).eq('id', currentSosRowId);
+    if (upd.error) console.error(upd.error);
+  }
+
   function activateSOS(){
     sosActive = true;
     sosBtn.classList.remove('pulsing');
@@ -772,6 +851,9 @@
     sosIdleMsg.style.display = "none";
     sosLog.innerHTML = "";
     sosCancelBtn.style.display = "inline-block";
+    notifiedThisAlert = [];
+    currentSosRowId = null;
+    logSosStart();
 
     var now = new Date();
     sosMeta.textContent = "Triggered at " + now.toLocaleTimeString() + " — sending in 4 seconds unless cancelled.";
@@ -780,6 +862,7 @@
     sosCancelBtn.onclick = function(){
       cancelled = true;
       clearSosTimers();
+      logSosUpdate({ status: 'cancelled', ended_at: new Date().toISOString() });
       finishSOS(true);
     };
 
@@ -793,6 +876,7 @@
             var lat = pos.coords.latitude.toFixed(4);
             var lon = pos.coords.longitude.toFixed(4);
             appendLog("Location found (" + lat + ", " + lon + ")");
+            logSosUpdate({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
             proceedToNotify(cancelled);
           },
           function(){
@@ -823,6 +907,7 @@
     contacts.forEach(function(c, i){
       var t = setTimeout(function(){
         appendLog(c.name + " notified");
+        notifiedThisAlert.push(c.name);
         if (i === contacts.length - 1){
           var t2 = setTimeout(function(){ finishSOS(false); }, 600);
           sosSendTimers.push(t2);
@@ -854,6 +939,11 @@
       sosMeta.textContent = "Alert cancelled — nothing was sent.";
     } else {
       sosMeta.textContent = "Alert complete. This was a simulation — no real messages were sent.";
+      logSosUpdate({
+        status: 'completed',
+        notified_contacts: JSON.stringify(notifiedThisAlert),
+        ended_at: new Date().toISOString()
+      });
     }
   }
 
@@ -865,6 +955,24 @@
   var tripBadge = document.getElementById('tripBadge');
   var tripInterval = null;
   var tripEndAt = null;
+  var currentJourneyRowId = null;
+
+  async function logJourneyStart(destination, minutes){
+    if (!backendReady) return;
+    var ins = await supabaseClient.from('journey_sessions').insert({
+      destination: destination,
+      expected_minutes: minutes,
+      status: 'in_progress'
+    }).select().single();
+    if (ins.error){ console.error(ins.error); return; }
+    currentJourneyRowId = ins.data.id;
+  }
+
+  async function logJourneyUpdate(fields){
+    if (!backendReady || !currentJourneyRowId) return;
+    var upd = await supabaseClient.from('journey_sessions').update(fields).eq('id', currentJourneyRowId);
+    if (upd.error) console.error(upd.error);
+  }
 
   function formatTime(ms){
     var totalSeconds = Math.max(0, Math.ceil(ms / 1000));
@@ -883,6 +991,8 @@
     tripStatus.textContent = "Watching your trip to \"" + dest + "\". Tap \"I'm safe\" once you arrive.";
     startTripBtn.style.display = "none";
     safeBtn.style.display = "inline-block";
+    currentJourneyRowId = null;
+    logJourneyStart(dest, mins);
 
     if (tripInterval) clearInterval(tripInterval);
     tripInterval = setInterval(updateTripClock, 250);
@@ -908,6 +1018,7 @@
     safeBtn.style.display = "none";
     startTripBtn.style.display = "inline-block";
     startTripBtn.textContent = "Start another journey";
+    logJourneyUpdate({ status: 'alerted', ended_at: new Date().toISOString() });
   }
 
   function markSafe(){
@@ -920,6 +1031,7 @@
     safeBtn.style.display = "none";
     startTripBtn.style.display = "inline-block";
     startTripBtn.textContent = "Start another journey";
+    logJourneyUpdate({ status: 'safe', ended_at: new Date().toISOString() });
   }
 
   startTripBtn.addEventListener('click', startTrip);
@@ -1047,6 +1159,8 @@
     div.appendChild(panel);
     tipsList.appendChild(div);
   });
+
+  initBackend();
 
 })();
 </script>
